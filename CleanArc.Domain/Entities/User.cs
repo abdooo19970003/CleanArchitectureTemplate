@@ -15,10 +15,10 @@ namespace CleanArc.Domain.Entities
             UserRole role = UserRole.User
             )
         {
-            FirstName = fname;
-            LastName = lname;
-            UserName = username;
-            Password = hashPassword(password);
+            FirstName = fname.Trim();
+            LastName = lname.Trim();
+            UserName = username.Trim();
+            Password = hashPassword(password.Trim());
             Avatar = avatar;
             Role = role;
             this.AddDomainEvent(new UserCreatedDomainEvent(this.Id));
@@ -38,8 +38,8 @@ namespace CleanArc.Domain.Entities
         public string Password { get; set; }
 
         public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Avatar { get; set; }
+        public string? LastName { get; set; }
+        public string? Avatar { get; set; }
         public UserRole Role { get; set; } = UserRole.User;
 
     }

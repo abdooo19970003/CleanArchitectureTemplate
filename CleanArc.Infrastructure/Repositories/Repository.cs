@@ -40,7 +40,7 @@ namespace CleanArc.Infrastructure.Repositories
             }
             if (entity is Entity entityBase)
             {
-                entityBase.IsDeleted = true;
+                entityBase.MarkAsDeleted();
                 _context.Entry(entityBase).State = EntityState.Modified;
             }
             else
@@ -82,7 +82,7 @@ namespace CleanArc.Infrastructure.Repositories
         public Task<T?> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            return Task.FromResult(entity);
+            return Task.FromResult<T?>(entity);
         }
     }
 }

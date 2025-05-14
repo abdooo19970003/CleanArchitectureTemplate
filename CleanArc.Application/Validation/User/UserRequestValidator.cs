@@ -8,7 +8,7 @@ namespace CleanArc.Application.Validation.User
     {
         public UserRequestValidator()
         {
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.userName)
                 .NotEmpty()
                 .WithMessage("UserName is required.")
                 .MinimumLength(3)
@@ -16,7 +16,7 @@ namespace CleanArc.Application.Validation.User
                 .MaximumLength(20)
                 .WithMessage("UserName must not exceed 20 characters.");
 
-            RuleFor(x => x.Password)
+            RuleFor(x => x.password)
                 .NotEmpty()
                 .WithMessage("Password is required.")
                 .MinimumLength(6)
@@ -28,7 +28,7 @@ namespace CleanArc.Application.Validation.User
                 .Matches(@"[0-9]+").WithMessage("Password must contain at least one digit.")
                 .Matches(@"[\W_]+").WithMessage("Password must contain at least one special character.");
 
-            RuleFor(x => x.FirstName)
+            RuleFor(x => x.firstName)
                 .NotEmpty()
                 .WithMessage("FirstName is required.");
 

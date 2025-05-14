@@ -16,6 +16,7 @@ namespace CleanArc.Infrastructure
         )
         {
             // Register Infrastructure services here
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Registering the UnitOfWork
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
@@ -27,7 +28,9 @@ namespace CleanArc.Infrastructure
             var connectionstring = configuration.GetConnectionString("Default");
             Console.WriteLine($"My Connection String:{connectionstring}");
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(connectionstring)
+                options.UseSqlServer(
+                    connectionstring
+                )
             );
 
             return services;

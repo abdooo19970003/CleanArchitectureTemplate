@@ -4,13 +4,14 @@ using MediatR;
 namespace CleanArc.Application.Services.Users.Command.Add
 {
     using CleanArc.Application.Interfaces;
+    using CleanArc.Domain.Common.Enums;
     using CleanArc.Domain.Entities;
 
     public class CreateUserHandler : IRequestHandler<CreateUserRequest, User>
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateUserHandler(IRepository<User> userRepository,
+        public CreateUserHandler(IUserRepository userRepository,
                                  IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
@@ -18,7 +19,15 @@ namespace CleanArc.Application.Services.Users.Command.Add
         }
         public async Task<User> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
-            var user = new User(request.FirstName, request.LastName, request.UserName, request.Password, request.Avatar, request.Role);
+            User user = new User
+            {
+                FirstName = request.firstName,
+                LastName = request.lastName,
+                UserName = request.userName,
+                Password = request.password,
+                Role = (UserRole)request.Role
+            };
+
             await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return user;

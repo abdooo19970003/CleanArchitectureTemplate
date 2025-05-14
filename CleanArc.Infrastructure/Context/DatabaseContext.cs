@@ -1,15 +1,14 @@
-﻿using System.Linq.Expressions;
-using CleanArc.Domain.Common;
-using CleanArc.Domain.Entities;
+﻿using CleanArc.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArc.Infrastructure.Context
 {
     public class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
-            : base(options) { }
+            : base(options)
+        {
+        }
 
         // Define DbSets for your entities here
         public DbSet<User> Users { get; set; }
@@ -27,9 +26,12 @@ namespace CleanArc.Infrastructure.Context
                     var newTableName = tableName.Substring(0, tableName.Length - 1);
                     entity.SetTableName(newTableName);
                 }
-
             }
-            // set query filter for soft delete
+
+            // Configure soft delete for all entities inheriting from Entity
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
+
+            // Set query filter for soft delete
             modelBuilder.Entity<User>().HasQueryFilter(p => !p.IsDeleted);
         }
     }
