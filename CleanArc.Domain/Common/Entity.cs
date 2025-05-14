@@ -1,0 +1,28 @@
+﻿namespace CleanArc.Domain.Common
+{
+    public abstract class Entity
+    {
+        private readonly List<IDomainEvent> _domainEvents = new();
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
+
+        public IReadOnlyCollection<IDomainEvent> GetDomainEvents => _domainEvents.AsReadOnly();
+        public void AddDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
+        }
+
+        public void RemoveDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Remove(domainEvent);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents.Clear();
+        }
+    }
+}
